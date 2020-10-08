@@ -46,9 +46,13 @@ public class Transaction {
      * Then, make sure to remove those UTXOs that are added to the transaction inputs from the sender wallet UTXOs
      */
     private Map<String, Pair<String, Double>> createInputs(Wallet senderWallet) {
-        // Write your code here
 
-        return null;
+        // A map of transaction id and a pair of recipient address and amount transferred
+        Map<String,Pair<String,Double>> send = Map.of(id,new Pair(senderAddress,senderWallet.calculateBalance()));
+        
+        
+        senderWallet.UTXOs.put(id,new Pair(recipientAddress,amount));
+        return send;
     }
 
     /**
@@ -64,9 +68,10 @@ public class Transaction {
      * 2. The leftover from transaction inputs amount that goes back to the sender
      */
     private Map<String, Double> createOutputs(Wallet senderWallet, String recipientAddress, double amount) {
-        // Write your code here
+        createInputs(senderWallet);
+        Map<String,Double> output = Map.of(recipientAddress,amount);
 
-        return null;
+        return output;
     }
 
     /**
@@ -79,8 +84,11 @@ public class Transaction {
      *
      */
     private double getInputsAmount(Map<String, Pair<String, Double>> inputs) {
+        double amount = 0;
         // Write your code here
+        for(int i =0; i < inputs.size();i++)
+            amount += inputs.get(i).key.indexOf(i);
 
-        return 0;
+        return amount;
     }
 }
