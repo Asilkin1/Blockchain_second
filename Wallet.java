@@ -28,11 +28,13 @@ public class Wallet {
      * Need to look at each block transaction to find all UXTOs associated with this wallet address
      */
     public double calculateBalance() {
-        // Go over each block
-        for(int i = 1; i < blockchain.chain.size(); i++){
-            System.out.print(UTXOs.values());
+        // Calculates the wallet balance
+        Double total = 0.0;
+        for(String key: UTXOs.keySet()){
+            Pair<String,Double> temp = UTXOs.get(key);
+            total += temp.value;
         }
-        return 0;
+        return total;
     }
 
 
@@ -47,8 +49,11 @@ public class Wallet {
      * the wallet has enough fund to cover the amount to be transferred
      */
     public Transaction createTransaction(String recipientAddress, double amount) {
-        // Write your code here
-
+        // Create a transaction
+        Transaction transfer = new Transaction(this,recipientAddress,amount);
+        // Check the balance prior to transfer
+        if(calculateBalance() >= amount)
+            return transfer;            // Can transfer, so return the transaction
         return null;
     }
 }
