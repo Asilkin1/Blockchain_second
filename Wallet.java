@@ -49,11 +49,14 @@ public class Wallet {
      * the wallet has enough fund to cover the amount to be transferred
      */
     public Transaction createTransaction(String recipientAddress, double amount) {
-        // Create a transaction
-        Transaction transfer = new Transaction(this,recipientAddress,amount);
+        
         // Check the balance prior to transfer
-        if(calculateBalance() >= amount)
+        if(calculateBalance() >= amount){
+            // Create a transaction
+            Transaction transfer = new Transaction(this,recipientAddress,amount);
             return transfer;            // Can transfer, so return the transaction
+        }
+        
         return null;
     }
 }

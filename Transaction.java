@@ -46,12 +46,20 @@ public class Transaction {
      * Then, make sure to remove those UTXOs that are added to the transaction inputs from the sender wallet UTXOs
      */
     private Map<String, Pair<String, Double>> createInputs(Wallet senderWallet) {
-
+        // Step 1.
+        Double total = 0.0;
+        for(String key: senderWallet.UTXOs.keySet()){
+            Pair<String,Double> temp = senderWallet.UTXOs.get(key);
+            total += temp.value;
+            senderWallet.UTXOs.remove(key, temp);
+            if(total>=amount){
+                break;
+            }
+        }
+      
         // A map of transaction id and a pair of recipient address and amount transferred
-        Map<String,Pair<String,Double>> send = Map.of(id,new Pair(senderAddress,senderWallet.calculateBalance()));
+        Map<String,Pair<String,Double>> send = Map.of(this.id,new Pair(recipientAddress,total));
         
-        
-        senderWallet.UTXOs.put(id,new Pair(recipientAddress,amount));
         return send;
     }
 
@@ -68,10 +76,15 @@ public class Transaction {
      * 2. The leftover from transaction inputs amount that goes back to the sender
      */
     private Map<String, Double> createOutputs(Wallet senderWallet, String recipientAddress, double amount) {
-        createInputs(senderWallet);
-        Map<String,Double> output = Map.of(recipientAddress,amount);
+        Double total = getInputsAmount(inputs);
+        Double toSender = total-amount;
+        Double toRecipient = total-toSender;
+        senderWallet.UTXOs.put(this.id, new Pair<String,Double>(senderWallet.address, toSender));
+        
+        
+        Map<String,Double> out = Map.of(recipientAddress, toRecipient, senderAddress, toSender);
 
-        return output;
+        return out;
     }
 
     /**
@@ -84,11 +97,13 @@ public class Transaction {
      *
      */
     private double getInputsAmount(Map<String, Pair<String, Double>> inputs) {
-        double amount = 0;
-        // Write your code here
-        for(int i =0; i < inputs.size();i++)
-            amount += inputs.get(i).key.indexOf(i);
+    
+        double total = 0;
+        for (String key: inputs.keySet()) {
+            Pair<String,Double> temp = inputs.get(key);
+            total += temp.value;
+        }
 
-        return amount;
+        return total;
     }
 }
