@@ -51,8 +51,9 @@ public class Transaction {
         for(String key: senderWallet.UTXOs.keySet()){
             Pair<String,Double> temp = senderWallet.UTXOs.get(key);
             total += temp.value;
-            senderWallet.UTXOs.remove(key, temp);
+            
             if(total>=amount){
+                senderWallet.UTXOs.remove(key, temp);
                 break;
             }
         }
