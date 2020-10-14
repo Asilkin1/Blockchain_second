@@ -20,9 +20,6 @@ class Main {
         // Print out blockchain after transaction 1
         myBlockchain.print();
 
-        System.out.println("-------Bill balance----------");
-        System.out.println(walletBill.calculateBalance());
-
         // Jeff sent me 5 BTC
         Transaction transaction2 = walletJeff.createTransaction(walletMe.address, 5);
         myBlockchain.addBlock(transaction2);

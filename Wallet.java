@@ -29,6 +29,13 @@ public class Wallet {
      */
     public double calculateBalance() {
         // Calculates the wallet balance
+        for(Block b: blockchain.chain){
+            if(b.nonce != 0){
+                if(b.data.recipientAddress == address){
+                    UTXOs.put(b.data.id, new Pair(b.data.senderAddress,b.data.amount));
+                }
+            }      
+        }
         Double total = 0.0;
         for(String key: UTXOs.keySet()){
             Pair<String,Double> temp = UTXOs.get(key);
