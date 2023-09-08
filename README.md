@@ -1,6 +1,6 @@
-# Blockchain_second
+# Blockchain money transfer mechanism
 
-The primary goal is to implement a transaction mechanism and understand the way money are transfered within the blockchain. Since the blockchain mechanism is designed in a way that is dramatically different from traditional bank operations on accounts, a notion of transaction input and subsequent transaction output should be understood in order to get an idea of how a value can be send from one blockchain wallet to another.
+The primary goal is to implement a transaction mechanism and understand the way money is transferred within the blockchain. Since the blockchain mechanism is designed in a way that is dramatically different from traditional bank operations on accounts, a notion of transaction input and subsequent transaction output should be understood in order to get an idea of how a value can be sent from one blockchain wallet to another.
 
 ## A concept of distributed ledger is used instead of an account. 
 Each block in the blockchain has a record of transactions. That is the only mechanism to check where money came from. It should be known to calculate blockchain wallet balance. Each wallet has it's own database to keep record of transactions where the recipient is the wallet itself. This database called UTXOs or unspent transaction output. This is what this wallet can spend.
